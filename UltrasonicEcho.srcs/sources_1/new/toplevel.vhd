@@ -40,6 +40,9 @@ entity toplevel is
     TRIG : out std_logic;
     ECHO : in std_logic
 
+    seg   : out   std_logic_vector(20 downto 0) -- Seven active-low segments from A to G for each display
+
+
  );
 end toplevel;
 
@@ -73,6 +76,14 @@ architecture Behavioral of toplevel is
         clk : in std_logic
         );
     end component LEDcontrol;
+
+    component bin2seg_multi is
+        port (
+            clear : in    std_logic;                    -- Clear all displays
+            bin   : in    std_logic_vector(6 downto 0); -- Binary representation of decimal number (0 to 100)
+            seg   : out   std_logic_vector(20 downto 0) -- Seven active-low segments from A to G for each display
+        );
+    end component;
     
      signal last_echo_time_count : STD_LOGIC_VECTOR(20 downto 0);
      signal trig_res : std_logic;
@@ -107,36 +118,20 @@ begin
             rst      => '0',
             pulse    => trig_res
         );
-        
-        TRIG <= trig_res;
 
-entity top_level is
-    port (
-        clk   : in    std_logic;                    -- Clock signal
-        clear : in    std_logic;                    -- Clear all displays
-        bin   : in    std_logic_vector(6 downto 0); -- Binary representation of decimal number (0 to 100)
-        seg   : out   std_logic_vector(20 downto 0) -- Seven active-low segments from A to G for each display
-    );
-end entity top_level;
-
-architecture behavioral of top_level is
-    component bin2seg_multi is
-        port (
-            clear : in    std_logic;                    -- Clear all displays
-            bin   : in    std_logic_vector(6 downto 0); -- Binary representation of decimal number (0 to 100)
-            seg   : out   std_logic_vector(20 downto 0) -- Seven active-low segments from A to G for each display
-        );
-    end component;
-
-begin
-    -- Instantiate bin2seg_multi entity
-    bin2seg_inst : bin2seg_multi
+        bin2seg_inst : bin2seg_multi
         port map (
             clear => clear,
             bin   => bin,
             seg   => seg
         );
-end architecture behavioral;
+
+        
+        TRIG <= trig_res;
+
+
+architecture behavioral of top_level is
+    
 
 
 

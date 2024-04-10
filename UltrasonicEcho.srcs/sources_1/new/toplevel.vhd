@@ -67,7 +67,8 @@ architecture Behavioral of toplevel is
     end component;
 
     component LEDcontrol is
-        Port ( inputNumber : in STD_LOGIC_VECTOR (20 downto 0);
+        Port (
+        inputNumber : in STD_LOGIC_VECTOR (20 downto 0);
         leds : out STD_LOGIC_VECTOR (15 downto 0);
         clk : in std_logic
         );
@@ -81,7 +82,7 @@ begin
    
     led_control0 : component LEDcontrol
         port map (
-            inputNumber => ( others => '0'),
+            inputNumber => last_echo_time_count,
             leds        => LED,
             clk         => CLK100MHZ
         );
@@ -109,6 +110,33 @@ begin
         
         TRIG <= trig_res;
 
+entity top_level is
+    port (
+        clk   : in    std_logic;                    -- Clock signal
+        clear : in    std_logic;                    -- Clear all displays
+        bin   : in    std_logic_vector(6 downto 0); -- Binary representation of decimal number (0 to 100)
+        seg   : out   std_logic_vector(20 downto 0) -- Seven active-low segments from A to G for each display
+    );
+end entity top_level;
+
+architecture behavioral of top_level is
+    component bin2seg_multi is
+        port (
+            clear : in    std_logic;                    -- Clear all displays
+            bin   : in    std_logic_vector(6 downto 0); -- Binary representation of decimal number (0 to 100)
+            seg   : out   std_logic_vector(20 downto 0) -- Seven active-low segments from A to G for each display
+        );
+    end component;
+
+begin
+    -- Instantiate bin2seg_multi entity
+    bin2seg_inst : bin2seg_multi
+        port map (
+            clear => clear,
+            bin   => bin,
+            seg   => seg
+        );
+end architecture behavioral;
 
 
 

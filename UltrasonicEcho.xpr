@@ -113,6 +113,7 @@
       </File>
       <File Path="$PSRCDIR/sources_1/new/toplevel.vhd">
         <FileInfo>
+          <Attr Name="AutoDisabled" Val="1"/>
           <Attr Name="UsedIn" Val="synthesis"/>
           <Attr Name="UsedIn" Val="simulation"/>
         </FileInfo>
@@ -126,7 +127,7 @@
       </File>
       <Config>
         <Option Name="DesignMode" Val="RTL"/>
-        <Option Name="TopModule" Val="toplevel"/>
+        <Option Name="TopModule" Val="LEDcontrol"/>
         <Option Name="TopAutoSet" Val="TRUE"/>
       </Config>
     </FileSet>

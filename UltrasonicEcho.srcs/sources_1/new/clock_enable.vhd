@@ -1,14 +1,4 @@
--------------------------------------------------
---! @brief Clock enable
---! @version 1.3
---! @copyright (c) 2019-2024 Tomas Fryza, MIT license
---!
---! This VHDL file generates pulses of the clock enable signal.
---! Each pulse is one period of the clock signal wide, and its
---! repetition is determined by the PERIOD generic.
 
---! Developed using TerosHDL, Vivado 2020.2, and EDA Playground.
---! Tested on Nexys A7-50T board and xc7a50ticsg324-1L FPGA.
 -------------------------------------------------
 
 library ieee;

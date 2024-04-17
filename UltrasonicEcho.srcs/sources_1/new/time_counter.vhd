@@ -39,7 +39,7 @@ begin
                     sig_count <= sig_count + 1;
                 end if;
                 
-                if (latch = '0' and sig_last_latch = '1') then
+                if (latch = '1' and sig_last_latch = '0') then
                     sig_count <= 0;
                 elsif (latch = '0' and sig_last_latch = '1') then
                     -- Assign internal register to output

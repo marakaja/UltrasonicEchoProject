@@ -1,134 +1,135 @@
-----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
--- Create Date: 27.03.2024 09:31:18
--- Design Name: 
--- Module Name: segment - Behavioral
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
--- Revision:
--- Revision 0.01 - File Created
--- Additional Comments:
------------------------------------------------------------------------------------
 
 library ieee;
-use ieee.std_logic_1164.all;
+    use ieee.std_logic_1164.all;
+    use IEEE.NUMERIC_STD.ALL;
 
-entity bin2seg_multi is
+entity segment is
     port (
-        clear : in    std_logic;                    -- Clear all displays
-        bin   : in    std_logic_vector(6 downto 0); -- Binary representation of decimal number (0 to 100)
-        seg   : out   std_logic_vector(20 downto 0) -- Seven active-low segments from A to G for each display
+        clear : in    std_logic;                    --! Clear the display
+        seg   : out   std_logic_vector(6 downto 0);  --! Seven active-low segments from A to G
+
+        clk : in STD_LOGIC;
+
+        inputNumber : in STD_LOGIC_VECTOR (20 downto 0);
+
+        AN : out std_logic_vector(2 downto 0)        --! Common Anode: AN0, AN1, AN2
+
     );
-end entity bin2seg_multi;
+end entity segment;
 
-architecture behavioral of bin2seg_multi is
-    component bin2seg is
-        port (
-            clear : in    std_logic;                    -- Clear the display
-            bin   : in    std_logic_vector(3 downto 0); -- Binary representation of one hexadecimal symbol
-            seg   : out   std_logic_vector(6 downto 0)  -- Seven active-low segments from A to G
-        );
-    end component;
+-------------------------------------------------
 
-    -- Signals for segments of each display
-    signal display_0, display_1, display_2 : std_logic_vector(6 downto 0) := (others => '0');
+architecture behavioral of segment is
 
-    -- Binary representation of numbers 0 to 9
-    constant BIN_0   : std_logic_vector(3 downto 0) := "0000";
-    constant BIN_1   : std_logic_vector(3 downto 0) := "0001";
-    constant BIN_2   : std_logic_vector(3 downto 0) := "0010";
-    constant BIN_3   : std_logic_vector(3 downto 0) := "0011";
-    constant BIN_4   : std_logic_vector(3 downto 0) := "0100";
-    constant BIN_5   : std_logic_vector(3 downto 0) := "0101";
-    constant BIN_6   : std_logic_vector(3 downto 0) := "0110";
-    constant BIN_7   : std_logic_vector(3 downto 0) := "0111";
-    constant BIN_8   : std_logic_vector(3 downto 0) := "1000";
-    constant BIN_9   : std_logic_vector(3 downto 0) := "1001";
-
-    -- Binary representation of numbers 10 to 100
-    constant BIN_10  : std_logic_vector(3 downto 0) := "1010";
-    constant BIN_20  : std_logic_vector(3 downto 0) := "1011";
-    constant BIN_30  : std_logic_vector(3 downto 0) := "1100";
-    constant BIN_40  : std_logic_vector(3 downto 0) := "1101";
-    constant BIN_50  : std_logic_vector(3 downto 0) := "1110";
-    constant BIN_60  : std_logic_vector(3 downto 0) := "1111";
-    constant BIN_70  : std_logic_vector(3 downto 0) := "0000";
-    constant BIN_80  : std_logic_vector(3 downto 0) := "0001";
-    constant BIN_90  : std_logic_vector(3 downto 0) := "0010";
-    constant BIN_100 : std_logic_vector(3 downto 0) := "0011";
-    
-    -- Counter to switch between displays
-    signal counter : integer range 0 to 2 := 0;
+    signal distance : integer := 0;
+    signal counter : integer := 0;
+    signal sig_AN : std_logic_vector(2 downto 0) := "110";
+    signal bin : std_logic_vector(3 downto 0);    
 
 begin
+    -- Distance calculation sound needs to travel - one way
+    distance <= to_integer(unsigned(inputNumber)) / (2915 * 2); 
 
-    -- Counter process to switch between displays
-    counter_process : process
+    process (clk)
     begin
-        wait until rising_edge(clk); -- Assuming you have a clock signal named clk
+        if rising_edge(clk) then
+           counter <= counter + 1;
+           if counter = 2000 then
+               counter <= 0;
+               if sig_AN = "110" then
+                sig_AN <= "101";
+                      bin <= std_logic_vector(to_unsigned(distance/10 - (distance/100)*10 , 4));
+               elsif sig_AN = "101" then
+                sig_AN <= "011";
+                     bin <= std_logic_vector(to_unsigned(distance/100, 4));
+               elsif sig_AN = "011" then
+                    sig_AN <= "110";
+                    bin <= std_logic_vector(to_unsigned(distance mod 10, 4));
+               end if;
 
-        if clear = '1' then
-            counter <= 0; -- Reset the counter
-        else
-            if counter = 2 then
-                counter <= 0;
-            else
-                counter <= counter + 1;
-            end if;
+               if distance > 200 then
+                   bin <= "0000";
+               end if;
+           end if;
         end if;
-    end process counter_process;
+        
+        AN <= sig_AN;
+    end process;
 
-    -- Display selection logic
-    display_selection : process(bin, counter)
+
+    --! This combinational process decodes binary input
+    --! `bin` into 7-segment display output `seg` for a
+    --! Common Anode configuration. When either `bin` or
+    --! `clear` changes, the process is triggered. Each
+    --! bit in `seg` represents a segment from A to G.
+    --! The display is cleared if `clear` is set to 1.
+    p_7seg_decoder : process (bin, clear) is
     begin
-        case counter is
-            when 0 =>
-                -- Display 0
-                display_0_decoder : bin2seg
-                    port map (
-                        clear => clear,
-                        bin   => bin(6 downto 4),
-                        seg   => display_0
-                    );
-                display_1 <= (others => '0');
-                display_2 <= (others => '0');
-            when 1 =>
-                -- Display 1
-                display_1_decoder : bin2seg
-                    port map (
-                        clear => clear,
-                        bin   => bin(3 downto 1),
-                        seg   => display_1
-                    );
-                display_0 <= (others => '0');
-                display_2 <= (others => '0');
-            when 2 =>
-                -- Display 2
-                display_2_decoder : bin2seg
-                    port map (
-                        clear => clear,
-                        bin   => bin(0),
-                        seg   => display_2
-                    );
-                display_0 <= (others => '0');
-                display_1 <= (others => '0');
-            when others =>
-                -- Do nothing
-                display_0 <= (others => '0');
-                display_1 <= (others => '0');
-                display_2 <= (others => '0');
-        end case;
-    end process display_selection;
 
-    -- Output the segments for each display
-    seg <= display_2 & display_1 & display_0;
+        if (clear = '1') then
+            seg <= "1111111";  -- Clear the display
+        else
+
+            case bin is
+
+                when x"0" =>
+                    seg <= "0000001";
+
+                when x"1" =>
+                    seg <= "1001111";
+
+                -- WRITE YOUR CODE HERE
+                -- 2, 3, 4, 5, 6
+
+                when x"2" =>
+                    seg <= "0010010";
+
+                when x"3" =>
+                    seg <= "0000110";
+
+                when x"4" =>
+                    seg <= "1001100";
+
+                when x"5" =>
+                    seg <= "0100100";
+
+                when x"6" =>
+                    seg <= "0100000";
+
+                when x"7" =>
+                    seg <= "0001111";
+
+                when x"8" =>
+                    seg <= "0000000";
+
+                -- WRITE YOUR CODE HERE
+                -- 9, A, b, C, d
+
+                when x"9" =>
+                    seg <= "0000100";
+
+                when x"A" =>
+                    seg <= "0001000";
+
+                when x"b" =>
+                    seg <= "1100000";
+
+                when x"C" =>
+                    seg <= "0110001";
+
+                when x"d" =>
+                    seg <= "1000010";
+
+                when x"E" =>
+                    seg <= "0110000";
+
+                when others =>
+                    seg <= "0111000";
+
+            end case;
+
+        end if;
+
+    end process p_7seg_decoder;
 
 end architecture behavioral;
-

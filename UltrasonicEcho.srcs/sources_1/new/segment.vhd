@@ -78,8 +78,6 @@ begin
                 when x"1" =>
                     seg <= "1001111";
 
-                -- WRITE YOUR CODE HERE
-                -- 2, 3, 4, 5, 6
 
                 when x"2" =>
                     seg <= "0010010";
@@ -102,8 +100,6 @@ begin
                 when x"8" =>
                     seg <= "0000000";
 
-                -- WRITE YOUR CODE HERE
-                -- 9, A, b, C, d
 
                 when x"9" =>
                     seg <= "0000100";

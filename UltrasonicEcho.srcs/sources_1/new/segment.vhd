@@ -27,8 +27,8 @@ architecture behavioral of segment is
     signal bin : std_logic_vector(3 downto 0);    
 
 begin
-    -- Distance calculation sound needs to travel - one-way
-    distance <= to_integer(unsigned(inputNumber)) / (2915 * 2); 
+  
+    distance <= to_integer(unsigned(inputNumber)) / (2915 * 2);   -- Distance calculation, sound needs to travel both ways but - one-way
 
     process (clk)
     begin

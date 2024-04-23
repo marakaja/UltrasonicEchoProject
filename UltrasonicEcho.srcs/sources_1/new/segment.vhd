@@ -28,7 +28,7 @@ architecture behavioral of segment is
 
 begin
   
-    distance <= to_integer(unsigned(inputNumber)) / (2915 * 2);   -- Distance calculation, sound travels both ways but we need only one-way
+    distance <= to_integer(unsigned(inputNumber)) / (2915 * 2);   -- Distance calculation, sound travels both ways but we need only one-way to be shown on display
 
     process (clk)
     begin

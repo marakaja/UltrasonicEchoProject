@@ -14,13 +14,12 @@ architecture Behavioral of LEDcontrol is
     signal distance : integer := 0;
     
 begin
-    -- Distance sound nedeed to travel both ways
-    distance <= to_integer(unsigned(inputNumber)) / 2915;
-
+    -- Distance sound needed to travel both ways
+    distance <= to_integer(unsigned(inputNumber)) / 2915; 
 process (clk)
 begin
   if(rising_edge(clk)) then
-      if (distance >= 0 and distance <= 10) then
+      if (distance >= 0 and distance <= 10) then -- the closer you are, the more LEDs lights up
             leds <= "0111111111111111";
         elsif distance > 10 and distance <= 15 then
             leds <= "0111111111111110";
@@ -52,7 +51,7 @@ begin
             leds <= "0100000000000000";
         
         else
-            leds <= "1000000000000000";
+            leds <= "1000000000000000";  -- if object is out of range, only 1 LED(first from left) is on
         end if;
     end if;
 

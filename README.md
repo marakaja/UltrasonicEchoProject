@@ -31,12 +31,13 @@ We used Arduino uno to supply the 5V power needed by the HC-SR04 ultrasonic sens
 ![Arduino_Uno_-_R3](https://github.com/marakaja/UltrasonicEchoProject/assets/145433293/34819ffb-b302-4bd0-ab2a-85b4acf81431)
 
 ## Software description
-The software for this project in written in VHDL. Here are components that we used to make smart parking system. <br>
-`LEDcontrol.vhd` - <br>
-`clock_enable.vhd` - <br>
-`segment.vhd` - <br>
-`time_counter.vhd` - <br>
-`toplevel.vhd` - <br>
+The software for this project in written in VHDL. Here are components that we used to make smart parking system. <br> <br>
+`LEDcontrol.vhd` - This module controls the LEDs on the board based on the calculated distance from the obstacle. The distance is obtained from the input signal “inputNumber” and converted to LEDs according to predefined rules. <a href="https://github.com/marakaja/UltrasonicEchoProject/blob/main/UltrasonicEcho.srcs/sources_1/new/LEDcontrol.vhd">LEDcontrol.vhd</a> <br> 
+`clock_enable.vhd` - generates a pulse signal based on the master clock signal to enable other components. <a href="https://github.com/marakaja/UltrasonicEchoProject/blob/main/UltrasonicEcho.srcs/sources_1/new/clock_enable.vhd">clock_enable.vhd</a> <br> 
+`segment.vhd` - This module controls the seven-segment display based on the calculated distance to the obstacle. The distance is obtained using the input signal "inputNumber" and converted to a seven-segment display. <a href="https://github.com/marakaja/UltrasonicEchoProject/blob/main/UltrasonicEcho.srcs/sources_1/new/segment.vhd">segment.vhd</a> <br> 
+`time_counter.vhd` - It implements a counter to measure the time between the trigger signal and the echo signal from the ultrasonic sensors. <a href="https://github.com/marakaja/UltrasonicEchoProject/blob/main/UltrasonicEcho.srcs/sources_1/new/time_counter.vhd">time_counter.vhd</a> <br>
+`toplevel.vhd` - The main component connecting all parts and controlling the behavior of the system. <a href="https://github.com/marakaja/UltrasonicEchoProject/blob/main/UltrasonicEcho.srcs/sources_1/new/toplevel.vhd">toplevel.vhd</a> <br>
+
 
 ## Components simulation
 Write descriptive text and put simulation screenshots of your components.

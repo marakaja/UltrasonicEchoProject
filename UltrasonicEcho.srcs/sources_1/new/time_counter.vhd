@@ -2,13 +2,13 @@
 -- TEAM: Sensor
 -- Engineer: Marek Karlicek, Jan Kriz, Tomas Kucera, Rauf Iusufov 
 -- 
--- Create Date: 27.03.2024 09:22:18
+-- Create Date: 27.03.2024
 -- Design Name: 
 -- Module Name: time_counter
 -- Project Name: Parking Sensor system 
 -- Target Devices: Nexys A7-50T 
 
--- Description: Top level module for Parking Sensor system 
+-- Description: Time counter for pulse lenght measurement, 21-bit counter 
 ----------------------------------------------------------------------------------
 
 
@@ -53,9 +53,9 @@ begin
                     sig_count <= sig_count + 1;
                 end if;
                 
-                if (latch = '1' and sig_last_latch = '0') then
+                if (latch = '1' and sig_last_latch = '0') then -- Test begin of pulse
                     sig_count <= 0;
-                elsif (latch = '0' and sig_last_latch = '1') then
+                elsif (latch = '0' and sig_last_latch = '1') then -- Test end of pulse
                     -- Assign internal register to output
                     count <= std_logic_vector(to_unsigned(sig_count, 21));
                 end if;

@@ -45,3 +45,5 @@ Instruction manual for your application, including photos and a link to a short 
 ## Video of working project
 [![Our project](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ9_bqw1eS4LBZrmvqx8KZyM2dENurni9gWR11YMBvZA&s)](https://www.youtube.com/watch?v=ZKmbBe2K_lw)
 ## References
+<a href="https://github.com/tomas-fryza/vhdl-course/">Tomas Fryza VHDL Course</a><br>
+<a href="https://cdn.sparkfun.com/datasheets/Sensors/Proximity/HCSR04.pdf"> HC-04 datasheet </a>

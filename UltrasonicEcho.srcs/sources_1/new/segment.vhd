@@ -28,22 +28,27 @@ architecture behavioral of segment is
 
 begin
   
-    distance <= to_integer(unsigned(inputNumber)) / (2915 * 2);   -- Distance calculation, sound travels both ways but we need only one-way to be shown on display
+    -- Distance calculation, sound travels both ways but we need only one-way to be shown on display
+    distance <= to_integer(unsigned(inputNumber)) / (2915 * 2);   
+    --! speed of sound is 343m/s, so 1 pulse is 0.01715cm
+    --! sound needs to travel to the object and back, so the distance is divided by 2
+
 
     process (clk)
     begin
         if rising_edge(clk) then
-           counter <= counter + 1;
-           if counter = 2000 then
-               counter <= 0;
-               if sig_AN = "110" then
-                sig_AN <= "101";
+           counter <= counter + 1; -- counter for multiplexing
+
+           if counter = 2000 then -- 2000 cycles = 100e6/2000 = 50kHz
+               counter <= 0; -- reset counter
+               if sig_AN = "110" then -- if last digit was displayed
+                    sig_AN <= "101"; -- display middle digit
                       bin <= std_logic_vector(to_unsigned(distance/10 - (distance/100)*10 , 4));
-               elsif sig_AN = "101" then
-                sig_AN <= "011";
+               elsif sig_AN = "101" then -- if middle digit was displayed
+                    sig_AN <= "011"; -- display first digit
                      bin <= std_logic_vector(to_unsigned(distance/100, 4));
-               elsif sig_AN = "011" then
-                    sig_AN <= "110";
+               elsif sig_AN = "011" then -- if first digit was displayed
+                    sig_AN <= "110"; -- display last digit
                     bin <= std_logic_vector(to_unsigned(distance mod 10, 4));
                end if;
 

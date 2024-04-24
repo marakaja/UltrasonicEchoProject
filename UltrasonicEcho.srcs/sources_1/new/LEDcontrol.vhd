@@ -1,21 +1,37 @@
+----------------------------------------------------------------------------------
+-- TEAM: Sensor
+-- Engineer: Marek Karlicek, Jan Kriz, Tomas Kucera, Rauf Iusufov 
+-- 
+-- Create Date: 27.03.2024
+-- Design Name: 
+-- Module Name: LEDcontrol
+-- Project Name: Parking Sensor system 
+-- Target Devices: Nexys A7-50T 
+
+-- Description: LEDcontrol module is responsible for controlling the LEDs on the Nexys A7-50T board. Creates bar graph based on the distance of the object from the sensor. The closer the object is, the more LEDs light up.
+----------------------------------------------------------------------------------
+
 library IEEE;
     use IEEE.STD_LOGIC_1164.ALL;
     use IEEE.NUMERIC_STD.ALL;
 
 entity LEDcontrol is
-    Port ( inputNumber : in STD_LOGIC_VECTOR (20 downto 0);
-           leds : out STD_LOGIC_VECTOR (15 downto 0);
-           clk : in std_logic
+    Port ( inputNumber : in STD_LOGIC_VECTOR (20 downto 0); --! Distance from the sensor in pulses
+           leds : out STD_LOGIC_VECTOR (15 downto 0); --! LEDs on the board
+           clk : in std_logic --! Clock signal
            );
 end LEDcontrol;
 
 architecture Behavioral of LEDcontrol is
 
-    signal distance : integer := 0;
+    signal distance : integer := 0; --! Distance from the sensor in cm
     
 begin
     -- Distance sound needed to travel both ways
     distance <= to_integer(unsigned(inputNumber)) / 2915; 
+    --! speed of sound is 343m/s, so 1 pulse is 0.01715cm
+    --! sound needs to travel to the object and back, so the distance is divided by 2
+
 process (clk)
 begin
   if(rising_edge(clk)) then

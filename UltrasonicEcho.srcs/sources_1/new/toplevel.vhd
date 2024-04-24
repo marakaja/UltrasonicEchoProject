@@ -85,13 +85,11 @@ architecture Behavioral of toplevel is
         );
       end component segment;
     
-     signal last_echo_time_count : STD_LOGIC_VECTOR(20 downto 0);
-     signal trig_res : std_logic;
+     signal last_echo_time_count : STD_LOGIC_VECTOR(20 downto 0); --! Last echo time count (1 pulse per 1/100e6 sec)
+     signal trig_res : std_logic; --! Trigger signal for ultrasonic sensor
 
 begin
-    --! Signal declaration
-
-    seg7 : component segment
+    seg7 : component segment --! Seven segment display
         port map (
             clear => '0',
             seg(0) => CG,
@@ -103,14 +101,14 @@ begin
             seg(6) => CA,
             
             clk   => CLK100MHZ,
-            inputNumber => last_echo_time_count,
+            inputNumber => last_echo_time_count, --! Number from pulse lenght counter
             AN(0) => AN(0),
             AN(1) => AN(1),
             AN(2) => AN(2)
              
         );
    
-    led_control0 : component LEDcontrol
+    led_control0 : component LEDcontrol --! LED bargraph 
         port map (
             inputNumber => last_echo_time_count,
             leds        => LED,
@@ -118,7 +116,7 @@ begin
         );
 
 
-    time_counter0 : component time_counter
+    time_counter0 : component time_counter --! Counter clock pulses for echo pulse lenght
         port map (
             clk   => CLK100MHZ,
             rst   => trig_res,
@@ -128,7 +126,7 @@ begin
         );
 
 
-    counter0 : component clock_enable
+    counter0 : component clock_enable --! Clock division for trigger signal
         generic map (
             PERIOD => 10000000
         )

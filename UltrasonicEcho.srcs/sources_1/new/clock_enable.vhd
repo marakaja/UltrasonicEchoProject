@@ -1,3 +1,17 @@
+----------------------------------------------------------------------------------
+-- TEAM: Sensor
+-- Engineer: Marek Karlicek, Jan Kriz, Tomas Kucera, Rauf Iusufov 
+-- 
+-- Create Date: 27.03.2024
+-- Design Name: 
+-- Module Name: clock_enable
+-- Project Name: Parking Sensor system 
+-- Target Devices: Nexys A7-50T 
+
+-- Description: Clock divider module with enable signal, for generating trig pulses 
+----------------------------------------------------------------------------------
+
+
 
 -------------------------------------------------
 

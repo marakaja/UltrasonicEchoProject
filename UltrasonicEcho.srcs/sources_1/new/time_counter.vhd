@@ -1,3 +1,17 @@
+----------------------------------------------------------------------------------
+-- TEAM: Sensor
+-- Engineer: Marek Karlicek, Jan Kriz, Tomas Kucera, Rauf Iusufov 
+-- 
+-- Create Date: 27.03.2024 09:22:18
+-- Design Name: 
+-- Module Name: time_counter
+-- Project Name: Parking Sensor system 
+-- Target Devices: Nexys A7-50T 
+
+-- Description: Top level module for Parking Sensor system 
+----------------------------------------------------------------------------------
+
+
 library ieee;
     use ieee.std_logic_1164.all;
     use ieee.numeric_std.all; -- Package for data types conversion

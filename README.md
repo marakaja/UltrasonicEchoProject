@@ -43,4 +43,6 @@ The software for this project in written in VHDL. Here are components that we us
 Write descriptive text and put simulation screenshots of your components.
 ## Instructions
 Instruction manual for your application, including photos and a link to a short app video.
+## Video of working project
+[![Our project](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQ9_bqw1eS4LBZrmvqx8KZyM2dENurni9gWR11YMBvZA&s)](https://www.youtube.com/watch?v=ZKmbBe2K_lw)
 ## References

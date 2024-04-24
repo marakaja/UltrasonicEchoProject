@@ -2,9 +2,8 @@
 * [Theoretical description and explanation](#theoretical-description-and-explanation)
 * [Hardware description of demo application](#hardware-description-of-demo-application)
 * [Software description](#software-description)
-* [Components simulation](#components-simulation)
 * [Instructions](#instructions)
-* [References](#references)
+
   
 
 ### Team members
@@ -13,7 +12,10 @@ Member 2: Tomáš Kučera <br/>
 Member 3: Jan Kříž <br/>
 Member 4: Rauf Iusupov <br/>
 ## Theoretical description and explanation
-Description of the problem and how to solve it. 
+Smart car parking system is designed to facilitate parking by providing information about the vehicle's distance from an obstacle.
+It uses the HS-SR04 ultrasonic sensor connected to the Nexys A7 FPGA board to measure the distance between the vehicle and the obstacle.
+Ultrasonic sensors send trigger signals and after receiving the echo signal measure a time that is directly proportional to the distance from the obstacle.
+The measured distance is shown on the seven-segment display, which allows the user to easily judge how far the vehicle is from the obstacle.
 ## Hardware description of demo application
 ### Nexys A7-50T
 Nexys A7-50T board is a complete, ready-to-use digital circuit development platform based on the latest Artix-7™ Field Programmable Gate Array (FPGA) from Xilinx®. With its large, high-capacity FPGA, generous external memories, and collection of USB, Ethernet, and other ports, the Nexys A7 can host designs ranging from introductory combinational circuits to powerful embedded processors. Several built-in peripherals, including an accelerometer, temperature sensor, MEMs digital microphone, a speaker amplifier, and several I/O devices allow the Nexys A7 to be used for a wide range of designs without needing any other components.
@@ -38,9 +40,6 @@ The software for this project in written in VHDL. Here are components that we us
 `time_counter.vhd` - It implements a counter to measure the time between the trigger signal and the echo signal from the ultrasonic sensors. <a href="https://github.com/marakaja/UltrasonicEchoProject/blob/main/UltrasonicEcho.srcs/sources_1/new/time_counter.vhd">time_counter.vhd</a> <br>
 `toplevel.vhd` - The main component connecting all parts and controlling the behavior of the system. <a href="https://github.com/marakaja/UltrasonicEchoProject/blob/main/UltrasonicEcho.srcs/sources_1/new/toplevel.vhd">toplevel.vhd</a> <br>
 
-
-## Components simulation
-Write descriptive text and put simulation screenshots of your components.
 ## Instructions
 Instruction manual for your application, including photos and a link to a short app video.
 ## Video of working project

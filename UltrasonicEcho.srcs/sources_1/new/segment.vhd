@@ -27,8 +27,8 @@ architecture behavioral of segment is
     signal bin : std_logic_vector(3 downto 0);    
 
 begin
-    -- Distance calculation sound needs to travel - one way
-    distance <= to_integer(unsigned(inputNumber)) / (2915 * 2); 
+  
+    distance <= to_integer(unsigned(inputNumber)) / (2915 * 2);   -- Distance calculation, sound travels both ways but we need only one-way to be shown on display
 
     process (clk)
     begin
@@ -48,7 +48,7 @@ begin
                end if;
 
                if distance > 200 then
-                   bin <= "0000";
+                   bin <= "0000"; -- when out of range, the display shows zeros
                end if;
            end if;
         end if;
@@ -78,8 +78,6 @@ begin
                 when x"1" =>
                     seg <= "1001111";
 
-                -- WRITE YOUR CODE HERE
-                -- 2, 3, 4, 5, 6
 
                 when x"2" =>
                     seg <= "0010010";
@@ -102,8 +100,6 @@ begin
                 when x"8" =>
                     seg <= "0000000";
 
-                -- WRITE YOUR CODE HERE
-                -- 9, A, b, C, d
 
                 when x"9" =>
                     seg <= "0000100";
